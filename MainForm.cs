@@ -14,6 +14,8 @@ namespace HomepageGalleryGenerator
         {
             InitializeComponent();
             this.ImagesButtonEnabled(false);
+
+            this.scaleComboBox.Items.AddRange(new object[] { "1:144", "1:72", "1:48", "1:32", "1:35", "1:25", "1:24"} );
         }
 
         private void GenerateButton_Click(object sender, EventArgs e)
@@ -21,7 +23,7 @@ namespace HomepageGalleryGenerator
             //validateForm
 
             string modelName = this.modelNameTextBox.Text;
-            string scale = this.scaleTextBox.Text;
+            string scale = this.scaleComboBox.SelectedItem.ToString();
             string producer = this.producerTextBox.Text;
             string description = this.descriptionRichTextBox.Text;
             string imagesPath = this.imagesPathTextBox.Text.Replace("\\", "/");
@@ -124,6 +126,11 @@ namespace HomepageGalleryGenerator
             var imgIndex = this.imagesTextBox.Text.IndexOf("img");
             if(imgIndex > 0)
                 this.imagesPathTextBox.Text = this.imagesTextBox.Text.Substring(imgIndex);
+        }
+
+        private void scaleComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.generateButton.Enabled = this.scaleComboBox.SelectedItem != null;
         }
     }
 }

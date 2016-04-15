@@ -30,13 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.modelNameTextBox = new System.Windows.Forms.TextBox();
-            this.scaleTextBox = new System.Windows.Forms.TextBox();
             this.producerTextBox = new System.Windows.Forms.TextBox();
             this.descriptionRichTextBox = new System.Windows.Forms.RichTextBox();
             this.generateButton = new System.Windows.Forms.Button();
             this.previewPictureBox = new System.Windows.Forms.PictureBox();
             this.imagesListView = new System.Windows.Forms.ListView();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imagesBrowseButton = new System.Windows.Forms.Button();
             this.imagesPathTextBox = new System.Windows.Forms.TextBox();
             this.altTextBox = new System.Windows.Forms.TextBox();
@@ -54,6 +53,7 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.scaleComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -66,18 +66,11 @@
             this.modelNameTextBox.Size = new System.Drawing.Size(100, 20);
             this.modelNameTextBox.TabIndex = 2;
             // 
-            // scaleTextBox
-            // 
-            this.scaleTextBox.Location = new System.Drawing.Point(112, 32);
-            this.scaleTextBox.Name = "scaleTextBox";
-            this.scaleTextBox.Size = new System.Drawing.Size(43, 20);
-            this.scaleTextBox.TabIndex = 3;
-            // 
             // producerTextBox
             // 
-            this.producerTextBox.Location = new System.Drawing.Point(161, 32);
+            this.producerTextBox.Location = new System.Drawing.Point(168, 32);
             this.producerTextBox.Name = "producerTextBox";
-            this.producerTextBox.Size = new System.Drawing.Size(100, 20);
+            this.producerTextBox.Size = new System.Drawing.Size(93, 20);
             this.producerTextBox.TabIndex = 4;
             // 
             // descriptionRichTextBox
@@ -90,6 +83,7 @@
             // 
             // generateButton
             // 
+            this.generateButton.Enabled = false;
             this.generateButton.Location = new System.Drawing.Point(665, 313);
             this.generateButton.Name = "generateButton";
             this.generateButton.Size = new System.Drawing.Size(75, 23);
@@ -181,11 +175,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.scaleComboBox);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.modelNameTextBox);
             this.groupBox1.Controls.Add(this.descriptionRichTextBox);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.scaleTextBox);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.producerTextBox);
@@ -302,6 +296,15 @@
             this.label9.TabIndex = 23;
             this.label9.Text = "Podgląd";
             // 
+            // scaleComboBox
+            // 
+            this.scaleComboBox.FormattingEnabled = true;
+            this.scaleComboBox.Location = new System.Drawing.Point(112, 31);
+            this.scaleComboBox.Name = "scaleComboBox";
+            this.scaleComboBox.Size = new System.Drawing.Size(50, 21);
+            this.scaleComboBox.TabIndex = 18;
+            this.scaleComboBox.SelectedIndexChanged += new System.EventHandler(this.scaleComboBox_SelectedIndexChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -327,7 +330,6 @@
         #endregion
 
         private System.Windows.Forms.TextBox modelNameTextBox;
-        private System.Windows.Forms.TextBox scaleTextBox;
         private System.Windows.Forms.TextBox producerTextBox;
         private System.Windows.Forms.RichTextBox descriptionRichTextBox;
         private System.Windows.Forms.Button generateButton;
@@ -351,6 +353,7 @@
         private System.Windows.Forms.Button moveDownButton;
         private System.Windows.Forms.Button moveUpButton;
         private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.ComboBox scaleComboBox;
     }
 }
 
