@@ -68,6 +68,8 @@ namespace HomepageGalleryGenerator
                     continue;
                 this.imagesListView.Items.Add(file);
             }
+
+            ImagesListView_ItemSelectionChanged(null, null);
         }
 
         private void ImagesButtonEnabled(bool enabled)
@@ -82,6 +84,7 @@ namespace HomepageGalleryGenerator
             if(this.imagesListView.SelectedItems.Count < 1)
             {
                 this.ImagesButtonEnabled(false);
+                this.previewPictureBox.Image = null;
                 return;
             }
 
