@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Xml.Serialization;
 
 
 namespace HomepageGalleryGenerator
@@ -95,7 +96,7 @@ namespace HomepageGalleryGenerator
             if(index == this.imagesListView.Items.Count - 1)
                 this.moveDownButton.Enabled = false;
 
-            string image = this.imagesTextBox.Text + "/" + this.imagesListView.SelectedItems[0].Text;
+            string image = Path.Combine(this.imagesTextBox.Text, this.imagesListView.SelectedItems[0].Text);
             this.previewPictureBox.Image = Image.FromFile(image);
         }
 
@@ -136,6 +137,71 @@ namespace HomepageGalleryGenerator
         private void scaleComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.generateButton.Enabled = this.scaleComboBox.SelectedItem != null;
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            this.saveButton.Enabled = false;
+
+            var pageContent = new PageContent();
+            
+            pageContent.Model = modelNameTextBox.Text;
+            pageContent.Scale = scaleComboBox.SelectedIndex;
+            pageContent.Producer = producerTextBox.Text;
+            pageContent.Description = descriptionRichTextBox.Text;
+            pageContent.ImagesDirectory = imagesTextBox.Text;
+            pageContent.AltDescription = altTextBox.Text;
+            pageContent.WebsiteImageDir = imagesPathTextBox.Text;
+
+            pageContent.ImagesList = new string[this.imagesListView.Items.Count];
+            int i = 0;
+            foreach (ListViewItem item in this.imagesListView.Items)
+            {
+                pageContent.ImagesList[i] = item.Text;
+                i++;
+            }
+
+            var dialog = new SaveFileDialog();
+            dialog.AddExtension = true;
+            dialog.DefaultExt = ".gxml";
+            dialog.Filter = "Gallery file (.gxml)|*.gxml";
+            dialog.ShowDialog(this);
+            string outputFile = dialog.FileName;
+
+            XmlSerializer ser = new XmlSerializer(typeof(PageContent));
+            TextWriter writer = new StreamWriter(outputFile);
+            ser.Serialize(writer, pageContent);
+
+            this.saveButton.Enabled = true;
+        }
+
+        private void openButton_Click(object sender, EventArgs e)
+        {
+            this.openButton.Enabled = false;
+
+            var dialog = new OpenFileDialog();
+            dialog.AddExtension = true;
+            dialog.DefaultExt = ".gxml";
+            dialog.Filter = "Gallery file (.gxml)|*.gxml";
+            dialog.ShowDialog(this);
+            string inputFile = dialog.FileName;
+
+            XmlSerializer ser = new XmlSerializer(typeof(PageContent));
+            var fs = new FileStream(inputFile, FileMode.Open);
+            PageContent pageContent = ser.Deserialize(fs) as PageContent;
+
+            modelNameTextBox.Text = pageContent.Model;
+            scaleComboBox.SelectedIndex = pageContent.Scale;
+            producerTextBox.Text = pageContent.Producer;
+            descriptionRichTextBox.Text = pageContent.Description;
+            imagesTextBox.Text = pageContent.ImagesDirectory;
+            altTextBox.Text = pageContent.AltDescription;
+            imagesPathTextBox.Text = pageContent.WebsiteImageDir;
+
+            foreach (string file in pageContent.ImagesList)
+                this.imagesListView.Items.Add(file);
+
+            this.openButton.Enabled = true;
         }
     }
 }

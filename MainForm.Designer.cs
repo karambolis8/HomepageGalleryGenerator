@@ -54,6 +54,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.scaleComboBox = new System.Windows.Forms.ComboBox();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.openButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -305,11 +307,33 @@
             this.scaleComboBox.TabIndex = 18;
             this.scaleComboBox.SelectedIndexChanged += new System.EventHandler(this.scaleComboBox_SelectedIndexChanged);
             // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(12, 313);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 18;
+            this.saveButton.Text = "Zapisz";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // openButton
+            // 
+            this.openButton.Location = new System.Drawing.Point(93, 313);
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(75, 23);
+            this.openButton.TabIndex = 19;
+            this.openButton.Text = "Otwórz";
+            this.openButton.UseVisualStyleBackColor = true;
+            this.openButton.Click += new System.EventHandler(this.openButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(749, 343);
+            this.Controls.Add(this.openButton);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.generateButton);
@@ -354,6 +378,8 @@
         private System.Windows.Forms.Button moveUpButton;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ComboBox scaleComboBox;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button openButton;
     }
 }
 
