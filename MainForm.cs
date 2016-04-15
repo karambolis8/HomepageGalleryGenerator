@@ -109,6 +109,7 @@ namespace HomepageGalleryGenerator
             this.imagesListView.Items.Insert(index - 1, text);
             this.imagesListView.Items[index - 1].Focused = true;
             this.imagesListView.Items[index - 1].Selected = true;
+            this.imagesListView.Select();
         }
 
         private void MoveDownButton_Click(object sender, EventArgs e)
@@ -119,6 +120,7 @@ namespace HomepageGalleryGenerator
             this.imagesListView.Items.Insert(index + 1, text);
             this.imagesListView.Items[index + 1].Focused = true;
             this.imagesListView.Items[index + 1].Selected = true;
+            this.imagesListView.Select();
         }
 
         private void imagesTextBox_TextChanged(object sender, EventArgs e)
