@@ -233,6 +233,11 @@ namespace HomepageGalleryGenerator
 
         private void newButton_Click(object sender, EventArgs e)
         {
+            this.ClearForm();
+        }
+
+        private void ClearForm()
+        {
             this.modelNameTextBox.Text = null;
             //this.scaleComboBox
             this.producerTextBox.Text = null;
