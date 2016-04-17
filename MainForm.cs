@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Xml.Serialization;
 
 
@@ -165,7 +166,14 @@ namespace HomepageGalleryGenerator
             dialog.AddExtension = true;
             dialog.DefaultExt = ".gxml";
             dialog.Filter = "Gallery file (.gxml)|*.gxml";
-            dialog.ShowDialog(this);
+            var result = dialog.ShowDialog(this);
+
+            if (result != DialogResult.Yes && result != DialogResult.OK)
+            {
+                this.saveButton.Enabled = true;
+                return;
+            }
+
             string outputFile = dialog.FileName;
 
             XmlSerializer ser = new XmlSerializer(typeof(PageContent));
@@ -183,7 +191,14 @@ namespace HomepageGalleryGenerator
             dialog.AddExtension = true;
             dialog.DefaultExt = ".gxml";
             dialog.Filter = "Gallery file (.gxml)|*.gxml";
-            dialog.ShowDialog(this);
+            var result = dialog.ShowDialog(this);
+
+            if (result != DialogResult.OK && result != DialogResult.Yes)
+            {
+                this.openButton.Enabled = true;
+                return;
+            }
+
             string inputFile = dialog.FileName;
 
             XmlSerializer ser = new XmlSerializer(typeof(PageContent));
@@ -201,7 +216,32 @@ namespace HomepageGalleryGenerator
             foreach (string file in pageContent.ImagesList)
                 this.imagesListView.Items.Add(file);
 
+            if (this.loadMissingFilesCheckBox.Checked)
+            {
+                var di = new DirectoryInfo(pageContent.ImagesDirectory);
+                var missingImages = di
+                    .GetFiles("*.jpg", SearchOption.TopDirectoryOnly)
+                    .Select(fi => fi.Name)
+                    .Where(n => !pageContent.ImagesList.Contains(n));
+
+                foreach (string image in missingImages)
+                    this.imagesListView.Items.Add(image);
+            }
+
             this.openButton.Enabled = true;
+        }
+
+        private void newButton_Click(object sender, EventArgs e)
+        {
+            this.modelNameTextBox.Text = null;
+            //this.scaleComboBox
+            this.producerTextBox.Text = null;
+            this.descriptionRichTextBox.Text = null;
+            this.imagesTextBox.Text = null;
+            this.imagesListView.Items.Clear();
+            this.altTextBox.Text = null;
+            this.imagesPathTextBox.Text = null;
+            this.previewPictureBox.Image = null;
         }
     }
 }

@@ -43,6 +43,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.scaleComboBox = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -53,12 +54,15 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.scaleComboBox = new System.Windows.Forms.ComboBox();
-            this.saveButton = new System.Windows.Forms.Button();
-            this.openButton = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.newButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.openButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadMissingFilesCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // modelNameTextBox
@@ -86,7 +90,7 @@
             // generateButton
             // 
             this.generateButton.Enabled = false;
-            this.generateButton.Location = new System.Drawing.Point(665, 313);
+            this.generateButton.Location = new System.Drawing.Point(665, 358);
             this.generateButton.Name = "generateButton";
             this.generateButton.Size = new System.Drawing.Size(75, 23);
             this.generateButton.TabIndex = 6;
@@ -185,12 +189,21 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.producerTextBox);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 57);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(267, 295);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Opis";
+            // 
+            // scaleComboBox
+            // 
+            this.scaleComboBox.FormattingEnabled = true;
+            this.scaleComboBox.Location = new System.Drawing.Point(112, 31);
+            this.scaleComboBox.Name = "scaleComboBox";
+            this.scaleComboBox.Size = new System.Drawing.Size(50, 21);
+            this.scaleComboBox.TabIndex = 18;
+            this.scaleComboBox.SelectedIndexChanged += new System.EventHandler(this.scaleComboBox_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -204,7 +217,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(158, 16);
+            this.label6.Location = new System.Drawing.Point(165, 16);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(56, 13);
             this.label6.TabIndex = 20;
@@ -243,7 +256,7 @@
             this.groupBox2.Controls.Add(this.altTextBox);
             this.groupBox2.Controls.Add(this.imagesBrowseButton);
             this.groupBox2.Controls.Add(this.imagesTextBox);
-            this.groupBox2.Location = new System.Drawing.Point(285, 12);
+            this.groupBox2.Location = new System.Drawing.Point(285, 57);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(455, 295);
             this.groupBox2.TabIndex = 17;
@@ -298,45 +311,61 @@
             this.label9.TabIndex = 23;
             this.label9.Text = "Podgląd";
             // 
-            // scaleComboBox
+            // menuStrip1
             // 
-            this.scaleComboBox.FormattingEnabled = true;
-            this.scaleComboBox.Location = new System.Drawing.Point(112, 31);
-            this.scaleComboBox.Name = "scaleComboBox";
-            this.scaleComboBox.Size = new System.Drawing.Size(50, 21);
-            this.scaleComboBox.TabIndex = 18;
-            this.scaleComboBox.SelectedIndexChanged += new System.EventHandler(this.scaleComboBox_SelectedIndexChanged);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newButton,
+            this.saveButton,
+            this.openButton});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(749, 24);
+            this.menuStrip1.TabIndex = 20;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // saveButton
+            // newButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(12, 313);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(75, 23);
-            this.saveButton.TabIndex = 18;
-            this.saveButton.Text = "Zapisz";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.newButton.Name = "newButton";
+            this.newButton.Size = new System.Drawing.Size(50, 20);
+            this.newButton.Text = "Nowy";
+            this.newButton.Click += new System.EventHandler(this.newButton_Click);
             // 
             // openButton
             // 
-            this.openButton.Location = new System.Drawing.Point(93, 313);
             this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(75, 23);
-            this.openButton.TabIndex = 19;
+            this.openButton.Size = new System.Drawing.Size(57, 20);
             this.openButton.Text = "Otwórz";
-            this.openButton.UseVisualStyleBackColor = true;
             this.openButton.Click += new System.EventHandler(this.openButton_Click);
+            // 
+            // saveButton
+            // 
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(52, 20);
+            this.saveButton.Text = "Zapisz";
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // loadMissingFilesCheckBox
+            // 
+            this.loadMissingFilesCheckBox.AutoSize = true;
+            this.loadMissingFilesCheckBox.Checked = true;
+            this.loadMissingFilesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.loadMissingFilesCheckBox.Location = new System.Drawing.Point(168, 5);
+            this.loadMissingFilesCheckBox.Name = "loadMissingFilesCheckBox";
+            this.loadMissingFilesCheckBox.Size = new System.Drawing.Size(113, 17);
+            this.loadMissingFilesCheckBox.TabIndex = 21;
+            this.loadMissingFilesCheckBox.Text = "Załaduj nowe pliki";
+            this.loadMissingFilesCheckBox.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(749, 343);
-            this.Controls.Add(this.openButton);
-            this.Controls.Add(this.saveButton);
+            this.ClientSize = new System.Drawing.Size(749, 398);
+            this.Controls.Add(this.loadMissingFilesCheckBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.generateButton);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -347,7 +376,10 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -378,8 +410,11 @@
         private System.Windows.Forms.Button moveUpButton;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.ComboBox scaleComboBox;
-        private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.Button openButton;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem newButton;
+        private System.Windows.Forms.ToolStripMenuItem openButton;
+        private System.Windows.Forms.ToolStripMenuItem saveButton;
+        private System.Windows.Forms.CheckBox loadMissingFilesCheckBox;
     }
 }
 
