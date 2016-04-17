@@ -184,6 +184,12 @@ namespace HomepageGalleryGenerator
 
         private void openButton_Click(object sender, EventArgs e)
         {
+            var dialogResult = MessageBox.Show(this, "Czy na pewno załadować nowy plik? Niezapisane zmiany zostaną utracone.", "Nowy plik",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dialogResult == DialogResult.No)
+                return;
+
             this.openButton.Enabled = false;
 
             var dialog = new OpenFileDialog();
@@ -232,7 +238,7 @@ namespace HomepageGalleryGenerator
 
         private void newButton_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show(this, "Czy na pewno załadować nowy plik? Niezapisane zmiany zostaną utracone.", "Nowy plik",
+            var result = MessageBox.Show(this, "Czy na pewno wyczyścić formularz? Niezapisane zmiany zostaną utracone.", "Nowy plik",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if(result == DialogResult.Yes)
