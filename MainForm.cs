@@ -12,21 +12,27 @@ namespace HomepageGalleryGenerator
 {
     public partial class MainForm : Form
     {
+        private bool unsavedChanges;
+
         public MainForm()
         {
             InitializeComponent();
             this.ImagesButtonEnabled(false);
-            
+
+            this.unsavedChanges = false;    
             this.scaleComboBox.Items.AddRange(new object[] { "1:144", "1:72", "1:48", "1:32", "1:35", "1:25", "1:24"} );
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            var result = MessageBox.Show(this, "Czy na pewno zamknąć aplikację? Niezapisane zmiany zostaną utracone.",
-                "Zamykanie programu", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (unsavedChanges)
+            {
+                var result = MessageBox.Show(this, "Czy na pewno zamknąć aplikację? Niezapisane zmiany zostaną utracone.",
+                    "Zamykanie programu", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (result == DialogResult.No)
-                e.Cancel = true;
+                if (result == DialogResult.No)
+                    e.Cancel = true;
+            }
 
             base.OnClosing(e);
         }
@@ -80,6 +86,8 @@ namespace HomepageGalleryGenerator
             }
 
             ImagesListView_ItemSelectionChanged(null, null);
+
+            this.unsavedChanges = true;
         }
 
         private void ImagesButtonEnabled(bool enabled)
@@ -112,28 +120,32 @@ namespace HomepageGalleryGenerator
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             this.imagesListView.Items.Remove(this.imagesListView.SelectedItems[0]);
+
+            this.unsavedChanges = true;
         }
 
         private void MoveUpButton_Click(object sender, EventArgs e)
         {
-            int index = this.imagesListView.SelectedItems[0].Index;
-            string text = this.imagesListView.Items[index].Text;
-            this.imagesListView.Items.RemoveAt(index);
-            this.imagesListView.Items.Insert(index - 1, text);
-            this.imagesListView.Items[index - 1].Focused = true;
-            this.imagesListView.Items[index - 1].Selected = true;
-            this.imagesListView.Select();
+            this.MoveImage(true);
         }
 
         private void MoveDownButton_Click(object sender, EventArgs e)
         {
+            this.MoveImage(false);
+        }
+
+        private void MoveImage(bool moveUp)
+        {
             int index = this.imagesListView.SelectedItems[0].Index;
+            int order = moveUp ? -1 : 1;
             string text = this.imagesListView.Items[index].Text;
             this.imagesListView.Items.RemoveAt(index);
-            this.imagesListView.Items.Insert(index + 1, text);
-            this.imagesListView.Items[index + 1].Focused = true;
-            this.imagesListView.Items[index + 1].Selected = true;
+            this.imagesListView.Items.Insert(index + order, text);
+            this.imagesListView.Items[index + order].Focused = true;
+            this.imagesListView.Items[index + order].Selected = true;
             this.imagesListView.Select();
+
+            this.unsavedChanges = true;
         }
 
         private void imagesTextBox_TextChanged(object sender, EventArgs e)
@@ -141,11 +153,13 @@ namespace HomepageGalleryGenerator
             var imgIndex = this.imagesTextBox.Text.IndexOf("img");
             if(imgIndex > 0)
                 this.imagesPathTextBox.Text = this.imagesTextBox.Text.Substring(imgIndex);
+            this.unsavedChanges = true;
         }
 
         private void scaleComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.generateButton.Enabled = this.scaleComboBox.SelectedItem != null;
+            this.unsavedChanges = true;
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -189,6 +203,7 @@ namespace HomepageGalleryGenerator
             ser.Serialize(writer, pageContent);
 
             this.saveButton.Enabled = true;
+            this.unsavedChanges = false;
         }
 
         private void openButton_Click(object sender, EventArgs e)
@@ -212,6 +227,8 @@ namespace HomepageGalleryGenerator
                 this.openButton.Enabled = true;
                 return;
             }
+
+            this.ClearForm();
 
             string inputFile = dialog.FileName;
 
@@ -243,6 +260,7 @@ namespace HomepageGalleryGenerator
             }
 
             this.openButton.Enabled = true;
+            this.unsavedChanges = false;
         }
 
         private void newButton_Click(object sender, EventArgs e)
@@ -265,6 +283,7 @@ namespace HomepageGalleryGenerator
             this.altTextBox.Text = null;
             this.imagesPathTextBox.Text = null;
             this.previewPictureBox.Image = null;
+            this.unsavedChanges = false;
         }
     }
 }
