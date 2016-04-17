@@ -207,7 +207,7 @@ namespace HomepageGalleryGenerator
             string inputFile = dialog.FileName;
 
             XmlSerializer ser = new XmlSerializer(typeof(PageContent));
-            var fs = new FileStream(inputFile+"x", FileMode.Open);
+            var fs = new FileStream(inputFile, FileMode.Open);
             PageContent pageContent = ser.Deserialize(fs) as PageContent;
 
             modelNameTextBox.Text = pageContent.Model;
