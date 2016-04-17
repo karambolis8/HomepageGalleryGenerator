@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Xml.Serialization;
@@ -17,6 +18,17 @@ namespace HomepageGalleryGenerator
             this.ImagesButtonEnabled(false);
             
             this.scaleComboBox.Items.AddRange(new object[] { "1:144", "1:72", "1:48", "1:32", "1:35", "1:25", "1:24"} );
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            var result = MessageBox.Show(this, "Czy na pewno zamknąć aplikację? Niezapisane zmiany zostaną utracone.",
+                "Zamykanie programu", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.No)
+                e.Cancel = true;
+
+            base.OnClosing(e);
         }
 
         private void GenerateButton_Click(object sender, EventArgs e)
