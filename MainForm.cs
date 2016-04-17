@@ -21,22 +21,19 @@ namespace HomepageGalleryGenerator
 
         private void GenerateButton_Click(object sender, EventArgs e)
         {
-            //validateForm
-
             string modelName = this.modelNameTextBox.Text;
             string scale = this.scaleComboBox.SelectedItem.ToString();
             string producer = this.producerTextBox.Text;
             string description = this.descriptionRichTextBox.Text;
             string imagesPath = this.imagesPathTextBox.Text.Replace("\\", "/");
             string alt = this.altTextBox.Text;
-            string outputFile;
 
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.AddExtension = true;
             dialog.DefaultExt = ".html";
             dialog.Filter = "HTML file (.html)|*.html";
             dialog.ShowDialog(this);
-            outputFile = dialog.FileName;
+            var outputFile = dialog.FileName;
 
             IContentGenerator contentGenerator = new HTMLContentGenerator();
             List<string> filesList = new List<string>();
