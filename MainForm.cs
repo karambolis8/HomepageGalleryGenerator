@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
@@ -233,13 +232,17 @@ namespace HomepageGalleryGenerator
 
         private void newButton_Click(object sender, EventArgs e)
         {
-            this.ClearForm();
+            var result = MessageBox.Show(this, "Czy na pewno załadować nowy plik? Niezapisane zmiany zostaną utracone.", "Nowy plik",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if(result == DialogResult.Yes)
+                this.ClearForm();
         }
 
         private void ClearForm()
         {
             this.modelNameTextBox.Text = null;
-            //this.scaleComboBox
+            this.scaleComboBox.SelectedIndex = -1;
             this.producerTextBox.Text = null;
             this.descriptionRichTextBox.Text = null;
             this.imagesTextBox.Text = null;
