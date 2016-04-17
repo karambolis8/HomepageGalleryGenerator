@@ -15,7 +15,7 @@ namespace HomepageGalleryGenerator
         {
             InitializeComponent();
             this.ImagesButtonEnabled(false);
-
+            
             this.scaleComboBox.Items.AddRange(new object[] { "1:144", "1:72", "1:48", "1:32", "1:35", "1:25", "1:24"} );
         }
 
@@ -207,7 +207,7 @@ namespace HomepageGalleryGenerator
             string inputFile = dialog.FileName;
 
             XmlSerializer ser = new XmlSerializer(typeof(PageContent));
-            var fs = new FileStream(inputFile, FileMode.Open);
+            var fs = new FileStream(inputFile+"x", FileMode.Open);
             PageContent pageContent = ser.Deserialize(fs) as PageContent;
 
             modelNameTextBox.Text = pageContent.Model;
