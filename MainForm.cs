@@ -77,13 +77,10 @@ namespace HomepageGalleryGenerator
             dialog.ShowDialog(this);
             this.imagesTextBox.Text = Path.GetDirectoryName(dialog.FileNames[0]);
             string[] files = dialog.SafeFileNames;
+
             this.imagesListView.Items.Clear();
-            foreach(string file in files)
-            {
-                if(file.Contains("_small"))
-                    continue;
+            foreach(string file in files.Where(f => !f.Contains("_small")))
                 this.imagesListView.Items.Add(file);
-            }
 
             ImagesListView_ItemSelectionChanged(null, null);
 
@@ -208,11 +205,15 @@ namespace HomepageGalleryGenerator
 
         private void openButton_Click(object sender, EventArgs e)
         {
-            var dialogResult = MessageBox.Show(this, "Czy na pewno załadować nowy plik? Niezapisane zmiany zostaną utracone.", "Nowy plik",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (this.unsavedChanges)
+            {
+                var dialogResult = MessageBox.Show(this,
+                    "Czy na pewno załadować nowy plik? Niezapisane zmiany zostaną utracone.", "Nowy plik",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (dialogResult == DialogResult.No)
-                return;
+                if (dialogResult == DialogResult.No)
+                    return;
+            }
 
             this.openButton.Enabled = false;
 
@@ -247,29 +248,44 @@ namespace HomepageGalleryGenerator
             foreach (string file in pageContent.ImagesList)
                 this.imagesListView.Items.Add(file);
 
+            this.unsavedChanges = false;
+
             if (this.loadMissingFilesCheckBox.Checked)
             {
                 var di = new DirectoryInfo(pageContent.ImagesDirectory);
                 var missingImages = di
                     .GetFiles("*.jpg", SearchOption.TopDirectoryOnly)
                     .Select(fi => fi.Name)
-                    .Where(n => !pageContent.ImagesList.Contains(n));
+                    .Where(f => !f.Contains("_small"))
+                    .Where(n => !pageContent.ImagesList.Contains(n))
+                    .ToList();
 
-                foreach (string image in missingImages)
-                    this.imagesListView.Items.Add(image);
+                if (missingImages.Any())
+                {
+                    foreach (string image in missingImages)
+                        this.imagesListView.Items.Add(image);
+
+                    this.unsavedChanges = true;
+                }
             }
 
             this.openButton.Enabled = true;
-            this.unsavedChanges = false;
         }
 
         private void newButton_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show(this, "Czy na pewno wyczyścić formularz? Niezapisane zmiany zostaną utracone.", "Nowy plik",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (this.unsavedChanges)
+            {
+                var result = MessageBox.Show(this,
+                    "Czy na pewno wyczyścić formularz? Niezapisane zmiany zostaną utracone.", "Nowy plik",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if(result == DialogResult.Yes)
-                this.ClearForm();
+                if (result == DialogResult.Yes)
+                {
+                    this.ClearForm();
+                    this.unsavedChanges = false;
+                }
+            }
         }
 
         private void ClearForm()
