@@ -56,8 +56,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.newButton = new System.Windows.Forms.ToolStripMenuItem();
-            this.openButton = new System.Windows.Forms.ToolStripMenuItem();
             this.saveButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.openButton = new System.Windows.Forms.ToolStripMenuItem();
             this.loadMissingFilesCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -90,7 +90,7 @@
             // generateButton
             // 
             this.generateButton.Enabled = false;
-            this.generateButton.Location = new System.Drawing.Point(665, 358);
+            this.generateButton.Location = new System.Drawing.Point(665, 329);
             this.generateButton.Name = "generateButton";
             this.generateButton.Size = new System.Drawing.Size(75, 23);
             this.generateButton.TabIndex = 6;
@@ -189,7 +189,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.producerTextBox);
-            this.groupBox1.Location = new System.Drawing.Point(12, 57);
+            this.groupBox1.Location = new System.Drawing.Point(12, 28);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(267, 295);
             this.groupBox1.TabIndex = 16;
@@ -256,7 +256,7 @@
             this.groupBox2.Controls.Add(this.altTextBox);
             this.groupBox2.Controls.Add(this.imagesBrowseButton);
             this.groupBox2.Controls.Add(this.imagesTextBox);
-            this.groupBox2.Location = new System.Drawing.Point(285, 57);
+            this.groupBox2.Location = new System.Drawing.Point(285, 28);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(455, 295);
             this.groupBox2.TabIndex = 17;
@@ -330,19 +330,19 @@
             this.newButton.Text = "Nowy";
             this.newButton.Click += new System.EventHandler(this.newButton_Click);
             // 
-            // openButton
-            // 
-            this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(57, 20);
-            this.openButton.Text = "Otwórz";
-            this.openButton.Click += new System.EventHandler(this.openButton_Click);
-            // 
             // saveButton
             // 
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(52, 20);
             this.saveButton.Text = "Zapisz";
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // openButton
+            // 
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(57, 20);
+            this.openButton.Text = "Otwórz";
+            this.openButton.Click += new System.EventHandler(this.openButton_Click);
             // 
             // loadMissingFilesCheckBox
             // 
@@ -360,7 +360,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(749, 398);
+            this.ClientSize = new System.Drawing.Size(749, 362);
             this.Controls.Add(this.loadMissingFilesCheckBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
