@@ -195,12 +195,20 @@ namespace HomepageGalleryGenerator
 
             string outputFile = dialog.FileName;
 
-            XmlSerializer ser = new XmlSerializer(typeof(PageContent));
-            TextWriter writer = new StreamWriter(outputFile);
-            ser.Serialize(writer, pageContent);
+            try
+            {
+                XmlSerializer ser = new XmlSerializer(typeof (PageContent));
+                using (TextWriter writer = new StreamWriter(outputFile))
+                {
+                    ser.Serialize(writer, pageContent);
+                }
+            }
+            finally
+            {
+                this.saveButton.Enabled = true;
+                this.unsavedChanges = false;
+            }
 
-            this.saveButton.Enabled = true;
-            this.unsavedChanges = false;
         }
 
         private void openButton_Click(object sender, EventArgs e)
@@ -232,10 +240,29 @@ namespace HomepageGalleryGenerator
             this.ClearForm();
 
             string inputFile = dialog.FileName;
+            PageContent pageContent;
 
-            XmlSerializer ser = new XmlSerializer(typeof(PageContent));
-            var fs = new FileStream(inputFile, FileMode.Open);
-            PageContent pageContent = ser.Deserialize(fs) as PageContent;
+            try
+            {
+                XmlSerializer ser = new XmlSerializer(typeof(PageContent));
+                using (var fs = new FileStream(inputFile, FileMode.Open))
+                {
+                    pageContent = ser.Deserialize(fs) as PageContent;
+                }
+            }
+            catch (Exception)
+            {
+                this.openButton.Enabled = true;
+                this.unsavedChanges = false;
+                throw;
+            }
+
+            if (pageContent == null)
+            {
+                this.openButton.Enabled = true;
+                this.unsavedChanges = false;
+                return;
+            }
 
             modelNameTextBox.Text = pageContent.Model;
             scaleComboBox.SelectedIndex = pageContent.Scale;
