@@ -349,7 +349,7 @@
             this.loadMissingFilesCheckBox.AutoSize = true;
             this.loadMissingFilesCheckBox.Checked = true;
             this.loadMissingFilesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.loadMissingFilesCheckBox.Location = new System.Drawing.Point(12, 333);
+            this.loadMissingFilesCheckBox.Location = new System.Drawing.Point(18, 333);
             this.loadMissingFilesCheckBox.Name = "loadMissingFilesCheckBox";
             this.loadMissingFilesCheckBox.Size = new System.Drawing.Size(186, 17);
             this.loadMissingFilesCheckBox.TabIndex = 21;
