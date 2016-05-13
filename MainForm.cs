@@ -14,6 +14,8 @@ namespace HomepageGalleryGenerator
     {
         private bool unsavedChanges;
 
+        private PageContent pageContent;
+
         public MainForm()
         {
             InitializeComponent();
@@ -47,23 +49,38 @@ namespace HomepageGalleryGenerator
             string alt = this.altTextBox.Text;
 
             SaveFileDialog dialog = new SaveFileDialog();
+
+            if (!string.IsNullOrEmpty(pageContent.HtmlFile))
+            {
+                FileInfo fi = new FileInfo(pageContent.HtmlFile);
+                dialog.FileName = fi.Name;
+                dialog.InitialDirectory = fi.DirectoryName;
+            }
+
             dialog.AddExtension = true;
             dialog.DefaultExt = ".html";
             dialog.Filter = "HTML file (.html)|*.html";
             dialog.ShowDialog(this);
+
             var outputFile = dialog.FileName;
 
-            IContentGenerator contentGenerator = new HTMLContentGenerator();
-            List<string> filesList = new List<string>();
-            foreach(ListViewItem item in this.imagesListView.Items)
-                filesList.Add(item.Text);
-            string content = contentGenerator.GenerateContent(modelName, scale, producer, description, imagesPath, filesList.ToArray(), alt);
+            if (!string.IsNullOrEmpty(outputFile))
+            {
+                this.pageContent.HtmlFile = outputFile;
 
-            StreamWriter file = new StreamWriter(outputFile, false);
-            file.Write(content);
-            file.Close();
+                IContentGenerator contentGenerator = new HTMLContentGenerator();
+                List<string> filesList = new List<string>();
+                foreach (ListViewItem item in this.imagesListView.Items)
+                    filesList.Add(item.Text);
+                string content = contentGenerator.GenerateContent(modelName, scale, producer, description, imagesPath, filesList.ToArray(), alt);
 
-            MessageBox.Show("Plik wygenerowany pomyślnie!", "Zapis pliku", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                using (StreamWriter file = new StreamWriter(outputFile, false))
+                {
+                    file.Write(content);
+                }
+
+                MessageBox.Show("Plik wygenerowany pomyślnie!", "Zapis pliku", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void ImagesBrowseButton_Click(object sender, EventArgs e)
@@ -166,8 +183,6 @@ namespace HomepageGalleryGenerator
         {
             this.saveButton.Enabled = false;
 
-            var pageContent = new PageContent();
-            
             pageContent.Model = modelNameTextBox.Text;
             pageContent.Scale = scaleComboBox.SelectedIndex;
             pageContent.Producer = producerTextBox.Text;
@@ -243,7 +258,6 @@ namespace HomepageGalleryGenerator
             this.ClearForm();
 
             string inputFile = dialog.FileName;
-            PageContent pageContent;
 
             try
             {

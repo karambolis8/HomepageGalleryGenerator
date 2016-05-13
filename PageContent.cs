@@ -19,5 +19,7 @@ namespace HomepageGalleryGenerator
         public string AltDescription { get; set; }
 
         public string WebsiteImageDir { get; set; }
+
+        public string HtmlFile { get; set; }
     }
 }
