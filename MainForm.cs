@@ -96,7 +96,10 @@ namespace HomepageGalleryGenerator
 
         private void ImagesListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            if(this.imagesListView.SelectedItems.Count < 1)
+            if(this.previewPictureBox.Image != null)
+                this.previewPictureBox.Image.Dispose();
+
+            if (this.imagesListView.SelectedItems.Count < 1)
             {
                 this.ImagesButtonEnabled(false);
                 this.previewPictureBox.Image = null;
@@ -273,7 +276,10 @@ namespace HomepageGalleryGenerator
             imagesPathTextBox.Text = pageContent.WebsiteImageDir;
 
             foreach (string file in pageContent.ImagesList)
-                this.imagesListView.Items.Add(file);
+            {
+                if(File.Exists(Path.Combine(pageContent.ImagesDirectory, file)))
+                    this.imagesListView.Items.Add(file);
+            }
 
             this.unsavedChanges = false;
 
@@ -301,17 +307,20 @@ namespace HomepageGalleryGenerator
 
         private void newButton_Click(object sender, EventArgs e)
         {
+            bool clear = false;
+
             if (this.unsavedChanges)
             {
                 var result = MessageBox.Show(this,
                     "Czy na pewno wyczyścić formularz? Niezapisane zmiany zostaną utracone.", "Nowy plik",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                clear = result == DialogResult.Yes;
+            }
 
-                if (result == DialogResult.Yes)
-                {
-                    this.ClearForm();
-                    this.unsavedChanges = false;
-                }
+            if (!this.unsavedChanges || clear)
+            {
+                this.ClearForm();
+                this.unsavedChanges = false;
             }
         }
 
