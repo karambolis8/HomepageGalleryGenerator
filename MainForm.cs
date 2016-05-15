@@ -183,6 +183,9 @@ namespace HomepageGalleryGenerator
         {
             this.saveButton.Enabled = false;
 
+            if(pageContent == null)
+                pageContent = new PageContent();
+
             pageContent.Model = modelNameTextBox.Text;
             pageContent.Scale = scaleComboBox.SelectedIndex;
             pageContent.Producer = producerTextBox.Text;
