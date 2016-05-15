@@ -23,6 +23,8 @@ namespace HomepageGalleryGenerator
 
             this.unsavedChanges = false;    
             this.scaleComboBox.Items.AddRange(new object[] { "1:144", "1:72", "1:48", "1:32", "1:35", "1:25", "1:24"} );
+
+            this.pageContent = new PageContent();
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -182,9 +184,6 @@ namespace HomepageGalleryGenerator
         private void saveButton_Click(object sender, EventArgs e)
         {
             this.saveButton.Enabled = false;
-
-            if(pageContent == null)
-                pageContent = new PageContent();
 
             pageContent.Model = modelNameTextBox.Text;
             pageContent.Scale = scaleComboBox.SelectedIndex;
@@ -353,6 +352,8 @@ namespace HomepageGalleryGenerator
             this.imagesPathTextBox.Text = null;
             this.previewPictureBox.Image = null;
             this.unsavedChanges = false;
+            this.pageContent = new PageContent();
+
         }
     }
 }
