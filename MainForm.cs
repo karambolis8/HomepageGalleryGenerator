@@ -221,6 +221,8 @@ namespace HomepageGalleryGenerator
                 using (TextWriter writer = new StreamWriter(outputFile))
                 {
                     ser.Serialize(writer, pageContent);
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
             }
             finally
@@ -267,6 +269,8 @@ namespace HomepageGalleryGenerator
                 using (var fs = new FileStream(inputFile, FileMode.Open))
                 {
                     pageContent = ser.Deserialize(fs) as PageContent;
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                 }
             }
             catch (Exception)
