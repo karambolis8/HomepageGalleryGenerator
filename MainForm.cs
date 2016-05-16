@@ -15,6 +15,7 @@ namespace HomepageGalleryGenerator
         private bool unsavedChanges;
 
         private PageContent pageContent;
+        private string gxmlPath;
 
         public MainForm()
         {
@@ -62,7 +63,10 @@ namespace HomepageGalleryGenerator
             dialog.AddExtension = true;
             dialog.DefaultExt = ".html";
             dialog.Filter = "HTML file (.html)|*.html";
-            dialog.ShowDialog(this);
+            var result = dialog.ShowDialog(this);
+
+            if (result != DialogResult.OK && result != DialogResult.Yes)
+                return;
 
             var outputFile = dialog.FileName;
 
@@ -200,8 +204,16 @@ namespace HomepageGalleryGenerator
                 pageContent.ImagesList[i] = item.Text;
                 i++;
             }
-
+            
             var dialog = new SaveFileDialog();
+
+            if (!string.IsNullOrEmpty(this.gxmlPath))
+            {
+                var fi = new FileInfo(this.gxmlPath);
+                dialog.FileName = fi.Name;
+                dialog.InitialDirectory = fi.DirectoryName;
+            }
+
             dialog.AddExtension = true;
             dialog.DefaultExt = ".gxml";
             dialog.Filter = "Gallery file (.gxml)|*.gxml";
@@ -213,12 +225,12 @@ namespace HomepageGalleryGenerator
                 return;
             }
 
-            string outputFile = dialog.FileName;
-
+            this.gxmlPath = dialog.FileName;
+            
             try
             {
                 XmlSerializer ser = new XmlSerializer(typeof (PageContent));
-                using (TextWriter writer = new StreamWriter(outputFile))
+                using (TextWriter writer = new StreamWriter(this.gxmlPath))
                 {
                     ser.Serialize(writer, pageContent);
                     GC.Collect();
@@ -261,12 +273,12 @@ namespace HomepageGalleryGenerator
 
             this.ClearForm();
 
-            string inputFile = dialog.FileName;
+            this.gxmlPath = dialog.FileName;
 
             try
             {
                 XmlSerializer ser = new XmlSerializer(typeof(PageContent));
-                using (var fs = new FileStream(inputFile, FileMode.Open))
+                using (var fs = new FileStream(this.gxmlPath, FileMode.Open))
                 {
                     pageContent = ser.Deserialize(fs) as PageContent;
                     GC.Collect();
